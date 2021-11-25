@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\modules\v1;
+namespace app\api\modules\v10;
 
 class Module extends \yii\base\Module
 {
@@ -8,7 +8,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'app\api\modules\v1\controllers';
+    public $controllerNamespace = 'app\api\modules\v10\controllers';
 
     /**
      * @inheritdoc

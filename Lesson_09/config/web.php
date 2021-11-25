@@ -1,7 +1,5 @@
 <?php
 
-use yii\web\Response;
-
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -9,25 +7,15 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
-        'log',
-        [
-            'class' => 'yii\filters\ContentNegotiator',
-            'formats' => [
-                'application/json' => Response::FORMAT_JSON,
-            ],
-            'languages' => [
-                'en',
-                'de',
-            ],
-        ]
+        'log'
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
-        'v1' => [
-            'class' => app\api\modules\v1\Module::class,
+        'v10' => [
+            'class' => app\api\modules\v10\Module::class,
         ],
     ],
     'components' => [
@@ -68,10 +56,11 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => true,
             'rules' => [
                 [
                     'class' => yii\rest\UrlRule::class,
-                    'controller' => ['v1/products'],
+                    'controller' => ['v10/products'],
                     'prefix' => 'api',
                     'extraPatterns' => [
                         'GET /' => 'index'

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\modules\v1\models;
+namespace app\api\modules\v10\models;
 
 use yii\db\ActiveRecord;
 
@@ -16,5 +16,12 @@ class Product extends ActiveRecord
     public static function tableName()
     {
         return 'products';
+    }
+
+    public function rules()
+    {
+        return [
+            [['name', 'price'], 'required'],
+        ];
     }
 }
