@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -12,6 +13,7 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
+
     /**
      * {@inheritdoc}
      */
@@ -23,16 +25,24 @@ class SiteController extends Controller
                 'only' => ['logout', 'contact'],
                 'rules' => [
                     [
-                        'actions' => ['logout', 'contact'],
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['logout', 'contact'],
+                        'actions' => ['contact'],
+                        'allow' => true,
+                        'roles' => ['viewContacts'],
+                    ],
+                    [
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['?'],
                     ]
                 ],
+                'denyCallback' => function ($rule, $action) {
+                    Yii::$app->response->statusCode = 403;
+                }
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -66,6 +76,24 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+//        $user = new User();
+//        $user->username = 'vasya';
+//        $user->password = '12345';
+//        $user->save();
+
+//        $auth = Yii::$app->authManager;
+//
+//        $viewContacts = $auth->createPermission('viewContacts');
+//        $viewContacts->description = 'View contacts page';
+//        $auth->add($viewContacts);
+//
+//        $author = $auth->createRole('author');
+//        $auth->add($author);
+//        $auth->addChild($author, $viewContacts);
+//
+//        $auth->assign($author, 4);
+
+
         return $this->render('index');
     }
 
@@ -110,6 +138,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        // $res = Yii::$app->user->can('viewContacts');
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
